@@ -1,0 +1,141 @@
+{
+  "_说明": "analysis.json 当前结构定义。Step 10 读取这些字段生成 5 段式运营决策简报。",
+  "_填写规则": "品牌名/店铺名必须从 raw/*.json 动态读取；不得编造点击率、转化率或增长比例。",
+  "analysis_date": "分析日期",
+  "hero_badge": "报告徽章",
+  "hero_title": "报告标题",
+  "hero_exec_cards": [
+    {"label": "竞品数量", "value": "3个核心竞品 + 1个自家商品"},
+    {"label": "核心JTBD", "value": "一句话描述"},
+    {"label": "最大机会点", "value": "一句话描述"},
+    {"label": "最需规避陷阱", "value": "一句话描述"},
+    {"label": "流量格局", "value": "一句话描述"}
+  ],
+  "positioning": {
+    "self": "自家核心定位",
+    "p1": "竞品1核心定位",
+    "p2": "竞品2核心定位",
+    "p3": "竞品3核心定位"
+  },
+  "key_findings": ["竞品数据总览的关键发现"],
+  "price_matrix": ["价格带和竞争格局判断"],
+  "decision_factors": [
+    {
+      "rank": "1",
+      "name": "决策因子",
+      "weight": "权重",
+      "status": "自家现状",
+      "gap": "差距评估"
+    }
+  ],
+  "jtbd_functional": ["功能性 JTBD"],
+  "jtbd_emotional": ["情感性 JTBD"],
+  "opportunity_1": {"title": "机会点", "content": "说明"},
+  "opportunity_2": {"title": "机会点", "content": "说明"},
+  "threat_1": {"title": "风险点", "content": "说明"},
+  "threat_2": {"title": "风险点", "content": "说明"},
+  "feedback_insights": ["用户反馈核心洞察"],
+  "feedback_pain_points": {
+    "self": "自家痛点",
+    "p1": "竞品1痛点",
+    "p2": "竞品2痛点",
+    "p3": "竞品3痛点"
+  },
+  "feedback_eye_rate": {
+    "self": "自家护眼提及判断",
+    "p1": "竞品1护眼提及判断",
+    "p2": "竞品2护眼提及判断",
+    "p3": "竞品3护眼提及判断"
+  },
+  "visual_analysis": {
+    "self": {"desc": "自家主图分析", "score": "★★★☆☆"},
+    "p1": {"desc": "竞品1主图分析", "score": "★★★★☆"},
+    "p2": {"desc": "竞品2主图分析", "score": "★★★★☆"},
+    "p3": {"desc": "竞品3主图分析", "score": "★★★★☆"}
+  },
+  "decision_mode": {
+    "business_goal": "提升转化",
+    "decision_type": "execute | experiment | collect_data | hold",
+    "decision_scope": "标题首图 | SKU | 详情页 | 评价问答 | 价格 | 投放",
+    "reason": "为什么当前属于这个决策类型"
+  },
+  "data_quality_gate": {
+    "can_make_final_decision": true,
+    "missing_critical_data": ["缺失后会限制决策的关键数据"],
+    "weak_data_points": ["存在但证据弱的数据点"],
+    "decision_limitation": "本轮决策边界和限制"
+  },
+  "conversion_blockers": [
+    {
+      "blocker": "转化阻力",
+      "severity": "high | medium | low",
+      "evidence": "支撑证据",
+      "affected_stage": "影响阶段",
+      "priority": "P0 | P1 | P2"
+    }
+  ],
+  "evidence_chain": [
+    {
+      "evidence": "原始证据",
+      "source": "数据来源",
+      "business_interpretation": "运营解释",
+      "supports_decision": "支持的决策判断"
+    }
+  ],
+  "decision_summary": {
+    "final_decision": "本轮唯一主决策",
+    "why_this": "为什么优先做这个",
+    "why_not_others": "为什么其他方向暂缓",
+    "top3_actions": [
+      {
+        "priority": "P0",
+        "action_type": "动作类型",
+        "owner": "负责人",
+        "action": "具体动作",
+        "acceptance_criteria": "验收标准",
+        "dependent_data": ["依赖数据"],
+        "deadline": "截止时间",
+        "risk": "执行风险"
+      }
+    ],
+    "not_do_now": [{"item": "暂缓事项", "reason": "暂缓原因"}],
+    "expected_impact": "预期影响，不编造精确比例",
+    "confidence_level": {
+      "level": "high | medium | low",
+      "reason": "置信度原因",
+      "what_would_increase_confidence": ["提升置信度所需数据"]
+    },
+    "decision_risks": ["风险"]
+  },
+  "validation_plan": {
+    "method": "AB测试 | 前后对比 | 人工审核 | 数据补齐",
+    "primary_metric": "主指标",
+    "secondary_metric": ["辅指标"],
+    "no_baseline_rule": "没有 baseline 时，只判断新旧版本胜负"
+  },
+  "title_analysis": {
+    "current_title": "当前自家标题",
+    "missing_keywords": ["漏掉的高转化关键词"],
+    "competitor_keyword_patterns": ["竞品标题共性"],
+    "optimized_titles": [{"title": "可测试标题", "intent": "对应搜索意图"}]
+  },
+  "pricing_strategy": {
+    "price_position": "价格位置判断",
+    "promotion": ["促销建议"]
+  },
+  "review_qa_insights": {
+    "purchase_reasons": ["好评中的购买理由"],
+    "conversion_blockers": ["问答中的下单顾虑"],
+    "review_guidance": ["评价引导方向"],
+    "qa_to_seed": ["建议补充的买家问答"]
+  },
+  "kpi_table": [
+    {
+      "metric": "指标",
+      "current": "当前基准",
+      "target": "目标",
+      "target_cls": "green",
+      "action": "关键行动"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "_说明": "Step 8 结构化输出 Schema - 视觉分析。子 Agent 必须输出此格式的纯净 JSON",
+  "_输出要求": "1. 只输出 JSON，不要 Markdown 代码块标记；2. 不要任何自然语言解释；3. 字段必须完整",
+
+  "visual_analysis": {
+    "self": {
+      "desc": "string - 自家主图弱点/机会的汇总文字（必填，支持HTML标签）",
+      "score": "string - 星级评分（必填，如：★★★☆☆）",
+      "score_cls": "string - 样式类（可选，如：score-mid）",
+      "overall_score": "string - 数字评分（可选，如：6.5/10）",
+      "main_images": [
+        {
+          "strengths": "string - 主图1优势",
+          "weaknesses": "string - 主图1弱点",
+          "opportunities": "string - 主图1机会"
+        }
+      ],
+      "detail_page": {
+        "structure": "string - 详情页整体结构",
+        "trust": "string - 信任建立方式",
+        "cta": "string - 行动引导设计"
+      }
+    },
+    "p1": {
+      "desc": "string - 竞品1主图弱点/机会的汇总文字（必填）",
+      "score": "string - 星级评分（必填）",
+      "score_cls": "string - 样式类（可选）",
+      "overall_score": "string - 数字评分（可选）",
+      "main_images": [
+        {
+          "strengths": "string",
+          "weaknesses": "string",
+          "opportunities": "string"
+        }
+      ],
+      "detail_page": {
+        "structure": "string",
+        "trust": "string",
+        "cta": "string"
+      }
+    },
+    "p2": {
+      "desc": "string - 竞品2主图弱点/机会的汇总文字（必填）",
+      "score": "string - 星级评分（必填）",
+      "score_cls": "string - 样式类（可选）",
+      "overall_score": "string - 数字评分（可选）",
+      "main_images": [
+        {
+          "strengths": "string",
+          "weaknesses": "string",
+          "opportunities": "string"
+        }
+      ],
+      "detail_page": {
+        "structure": "string",
+        "trust": "string",
+        "cta": "string"
+      }
+    },
+    "p3": {
+      "desc": "string - 竞品3主图弱点/机会的汇总文字（必填）",
+      "score": "string - 星级评分（必填）",
+      "score_cls": "string - 样式类（可选）",
+      "overall_score": "string - 数字评分（可选）",
+      "main_images": [
+        {
+          "strengths": "string",
+          "weaknesses": "string",
+          "opportunities": "string"
+        }
+      ],
+      "detail_page": {
+        "structure": "string",
+        "trust": "string",
+        "cta": "string"
+      }
+    }
+  },
+  "_已移除字段说明": "feedback_pain_points / feedback_insights / feedback_eye_rate 已在 Step 4 写入 analysis.json，Step 8 不再输出这些字段"
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "天猫电商竞品分析"
+  short_description: "采集天猫淘宝商品数据并输出可执行竞品策略报告"
+  default_prompt: "Use $tmall-ecommerce-competitor-analysis to analyze Tmall/Taobao links or local product JSON files, then produce an actionable competitor strategy report."

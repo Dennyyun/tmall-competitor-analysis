@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>竞品分析报告_完整版_20260411-174500</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #080810; color: #d0d0e0; line-height: 1.7; font-size: 15px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+a { color: #818cf8; text-decoration: none; }
+
+/* Hero */
+.hero { background: linear-gradient(135deg, #0a0a1a 0%, #0f0f2a 50%, #0a1020 100%); border: 1px solid #2a2a4a; border-radius: 20px; padding: 56px 40px; text-align: center; margin-bottom: 40px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -80px; left: -80px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%); pointer-events: none; }
+.hero::after { content: ''; position: absolute; bottom: -60px; right: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%); pointer-events: none; }
+.hero-badge { display: inline-block; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; padding: 5px 16px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 20px; }
+.hero h1 { font-size: 2.2em; font-weight: 900; color: #ffffff; margin-bottom: 10px; position: relative; letter-spacing: -0.5px; }
+.hero .subtitle { color: #6b7280; font-size: 1em; margin-bottom: 36px; }
+.exec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 30px; }
+.exec-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 18px; text-align: left; }
+.exec-card .label { font-size: 10px; color: #6366f1; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; font-weight: 700; }
+.exec-card .value { font-size: 0.95em; color: #f0f0ff; font-weight: 600; line-height: 1.4; }
+
+/* Section */
+.section { background: rgba(255,255,255,0.012); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 32px; margin-bottom: 32px; }
+.section-title { font-size: 1.3em; font-weight: 800; color: #ffffff; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 2px solid #6366f1; display: flex; align-items: center; gap: 10px; }
+.title-icon { width: 30px; height: 30px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+
+/* Table */
+table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px; border-radius: 8px; overflow: hidden; }
+th { background: rgba(99,102,241,0.12); color: #a5b4fc; padding: 12px 16px; text-align: left; font-weight: 700; border-bottom: 1px solid rgba(99,102,241,0.2); }
+td { padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #b0b0c0; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(99,102,241,0.04); }
+.blue { color: #818cf8; font-weight: 600; }
+.red { color: #f87171; }
+.green { color: #34d399; font-weight: 600; }
+.orange { color: #fbbf24; font-weight: 600; }
+.bold { color: #e0e0ff; font-weight: 600; }
+
+/* Product cards */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.card { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; }
+.card:hover { border-color: rgba(99,102,241,0.3); box-shadow: 0 12px 40px rgba(99,102,241,0.1); }
+.card-img { width: 100%; height: 180px; object-fit: cover; display: block; background: #111; }
+.card-body { padding: 16px; }
+.card-name { font-size: 1em; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.card-price { font-size: 1.2em; font-weight: 800; margin-bottom: 10px; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 8px; font-size: 10px; margin: 2px; font-weight: 700; }
+.tag-self { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); }
+.tag-comp { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+.card-desc { color: #888898; font-size: 13px; margin-top: 10px; line-height: 1.5; }
+.card-score { margin-top: 10px; font-size: 12px; font-weight: 700; }
+.score-high { color: #34d399; }
+.score-mid { color: #fbbf24; }
+.score-low { color: #f87171; }
+
+/* Analysis box */
+.analysis-box { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 22px; margin-bottom: 18px; }
+.analysis-box h3 { color: #e0e0ff; font-size: 1.05em; margin-bottom: 12px; font-weight: 700; }
+.analysis-box ul { list-style: none; padding: 0; }
+.analysis-box li { padding: 5px 0; color: #9090a8; font-size: 13.5px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.analysis-box li:last-child { border-bottom: none; }
+.analysis-box li::before { content: '▸ '; color: #6366f1; font-weight: 700; margin-right: 6px; }
+
+/* Opportunity / Threat */
+.opp { background: rgba(52,211,153,0.05); border: 1px solid rgba(52,211,153,0.18); border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; }
+.opp h4 { color: #34d399; font-size: 0.95em; margin-bottom: 8px; font-weight: 700; }
+.opp p { color: #88a090; font-size: 13px; }
+.threat { background: rgba(248,113,113,0.05); border: 1px solid rgba(248,113,113,0.15); border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; }
+.threat h4 { color: #f87171; font-size: 0.95em; margin-bottom: 8px; font-weight: 700; }
+.threat p { color: #a08080; font-size: 13px; }
+
+/* Plan cards */
+.plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.plan-card { background: rgba(255,255,255,0.02); border-radius: 12px; padding: 24px; }
+.plan-card.plan-a { border: 2px solid rgba(99,102,241,0.4); }
+.plan-card.plan-b { border: 2px solid rgba(52,211,153,0.3); }
+.plan-card.plan-c { border: 2px solid rgba(251,191,36,0.3); }
+.plan-card h3 { font-size: 1.15em; font-weight: 800; margin-bottom: 10px; color: #fff; }
+.plan-card .plan-tag { display: inline-block; padding: 3px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-bottom: 12px; }
+.plan-a .plan-tag { background: rgba(99,102,241,0.2); color: #818cf8; }
+.plan-b .plan-tag { background: rgba(52,211,153,0.2); color: #34d399; }
+.plan-c .plan-tag { background: rgba(251,191,36,0.2); color: #fbbf24; }
+.plan-card p { color: #888898; font-size: 13.5px; margin-bottom: 14px; }
+.plan-card h4 { color: #c0c0d8; font-size: 0.95em; margin-bottom: 8px; margin-top: 14px; font-weight: 700; }
+.plan-card ul { list-style: none; padding: 0; }
+.plan-card li { color: #888898; font-size: 13px; padding: 3px 0; }
+.plan-card li::before { content: '· '; color: #6366f1; }
+
+/* Action list */
+.action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.action-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 22px; }
+.action-card h3 { font-size: 1.05em; font-weight: 800; margin-bottom: 14px; color: #fff; display: flex; align-items: center; gap: 8px; }
+.team-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.team-design { background: linear-gradient(135deg, #f472b6, #ec4899); }
+.team-ops { background: linear-gradient(135deg, #34d399, #10b981); }
+.team-rd { background: linear-gradient(135deg, #60a5fa, #3b82f6); }
+.action-card ul { list-style: none; padding: 0; }
+.action-card li { color: #888898; font-size: 13px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.action-card li:last-child { border-bottom: none; }
+.action-card li::before { content: '☐ '; color: #6366f1; font-size: 12px; }
+
+/* Avoid box */
+.avoid-box { background: rgba(248,113,113,0.05); border: 1px solid rgba(248,113,113,0.12); border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; }
+.avoid-box h4 { color: #f87171; font-size: 0.95em; margin-bottom: 6px; font-weight: 700; }
+.avoid-box p { color: #a08080; font-size: 13px; }
+.avoid-box .reason { color: #818cf8; font-weight: 600; }
+
+/* Grid helper */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+
+/* Footer */
+.footer { text-align: center; padding: 40px 0; color: #4b5563; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px; }
+
+/* V3 Plan special */
+.v3-box { background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.05)); border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; padding: 28px; margin-top: 24px; }
+.v3-box h3 { color: #818cf8; font-size: 1.2em; margin-bottom: 16px; font-weight: 800; }
+.v3-box p { color: #888898; font-size: 13.5px; margin-bottom: 14px; }
+.v3-box .strategy { background: rgba(99,102,241,0.1); border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+.v3-box .strategy strong { color: #818cf8; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">澳饰嘉 · 竞品分析报告</div>
+  <h1>客厅吸顶灯竞品全景分析</h1>
+  <p class="subtitle">Task ID: 20260411-174500 &nbsp;·&nbsp; 分析日期: 2026-04-11 &nbsp;·&nbsp; 4大竞品深度横评</p>
+  <div class="exec-grid">
+    <div class="exec-card"><div class="label">竞品数量</div><div class="value">3个核心竞品<br>+ 1个自家商品</div></div>
+    <div class="exec-card"><div class="label">核心JTBD</div><div class="value">客厅大空间够亮 + 护眼不伤眼 + 看起来有档次</div></div>
+    <div class="exec-card"><div class="label">最大机会点</div><div class="value">200元价位建立全光谱护眼心智，截流简顿800+用户</div></div>
+    <div class="exec-card"><div class="label">最需规避陷阱</div><div class="value">走Yeelight参数堆砌路线，丧失审美调性</div></div>
+    <div class="exec-card"><div class="label">流量格局</div><div class="value">¥200-300性价比红海正面厮杀；¥800+高端护眼蓝海简顿独占</div></div>
+  </div>
+</div>
+
+<!-- SECTION 1: 数据总览 -->
+<div class="section">
+  <h2 class="section-title"><span class="title-icon">📊</span>一、竞品数据总览</h2>
+  <table>
+    <tr>
+      <th>品牌</th><th>券后价</th><th>原价</th><th>销量</th><th>评价数</th><th>店铺评分(宝贝/服务/物流)</th><th>核心定位</th>
+    </tr>
+    <tr>
+      <td class="blue bold">澳饰嘉（自家）</td>
+      <td class="blue bold">¥279</td>
+      <td>¥299</td>
+      <td>3000+</td>
+      <td>800+</td>
+      <td>4.7 / 4.8 / 4.6</td>
+      <td>性价比·大户型·语音控制</td>
+    </tr>
+    <tr>
+      <td class="red">竞品1 Yeelight易来</td>
+      <td class="red">¥251</td>
+      <td>¥299</td>
+      <td class="bold">1万+</td>
+      <td>2000+</td>
+      <td>4.7 / 4.4 / <span class="green">5.0</span></td>
+      <td>智能生态·米家联动·Ra99高显指</td>
+    </tr>
+    <tr>
+      <td class="red">竞品2 简顿灯具</td>
+      <td class="red bold">¥808</td>
+      <td>¥1189</td>
+      <td class="green bold">2万+</td>
+      <td>3000+</td>
+      <td class="green">4.9 / 4.9 / 5.0</td>
+      <td class="green bold">无缝超薄·美国普瑞全光谱·5年只换不修</td>
+    </tr>
+    <tr>
+      <td class="red">竞品3 雷士照明</td>
+      <td class="red">¥534</td>
+      <td>¥989</td>
+      <td>6000+</td>
+      <td>400+</td>
+      <td>4.7 / 4.5 / <span class="green">5.0</span></td>
+      <td>中古风·悬浮光·IP40防蚊虫</td>
+    </tr>
+  </table>
+  <div class="grid-2" style="margin-top:20px;">
+    <div class="analysis-box">
+      <h3>关键发现</h3>
+      <ul>
+        <li>简顿以2倍价格实现销量碾压（2万+），说明<strong class="green">高端护眼市场存在巨大空间</strong></li>
+        <li>澳饰嘉与Yeelight同价位(¥251-279)，但Yeelight销量是澳饰嘉<strong class="red">3倍以上</strong>，差距明显</li>
+        <li>简顿店铺评分全面领先（4.9/4.9/5.0），服务保障是核心竞争力</li>
+        <li>雷士中古风+悬浮光差异化设计路线值得关注</li>
+      </ul>
+    </div>
+    <div class="analysis-box">
+      <h3>价格定位矩阵</h3>
+      <ul>
+        <li><strong class="blue">¥200-300 性价比区：</strong>澳饰嘉 vs Yeelight — 竞争最激烈，红海肉搏</li>
+        <li><strong class="orange">¥500-600 中端区：</strong>雷士 — 设计溢价路线</li>
+        <li><strong class="green">¥800+ 高端护眼蓝海：</strong>简顿 — 独占护眼心智，定价权最强</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: 主图分析 -->
+<div class="section">
+  <h2 class="section-title"><span class="title-icon">🖼</span>二、主图视觉分析</h2>
+  <div class="product-grid">
+    <div class="card">
+      <img class="card-img" src="https://gw.alicdn.com/imgextra/O1CN01Mb3eqe2CGmhX4l3zo_!!1756938447-0-picasso.jpg" alt="澳饰嘉主图">
+      <div class="card-body">
+        <div class="card-name">澳饰嘉（自家）</div>
+        <div class="card-price blue">¥279</div>
+        <span class="tag tag-self">自家</span>
+        <p class="card-desc">大促爆款风，色彩浓烈，安装工人出镜传达服务保障。星空水晶效果迎合大众审美，价格冲击力强。<br><strong class="orange">缺点：</strong>过度拥挤，P图感重，光影逻辑不统一，促销噪音掩盖护眼卖点。</p>
+        <div class="card-score score-mid">视觉评分：★★★☆☆</div>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img" src="https://gw.alicdn.com/imgextra/O1CN01T4IJmu2Hvc5Tt4UWz_!!2738299213-0-picasso.jpg" alt="Yeelight主图">
+      <div class="card-body">
+        <div class="card-name">竞品1 Yeelight易来</div>
+        <div class="card-price red">¥251</div>
+        <span class="tag tag-comp">竞品</span>
+        <p class="card-desc">科技健康感，Ra99全光谱+蓝天白云背景。参数化展示专业感强，斜角构图立体，小米生态链智能背书。<br><strong class="orange">缺点：</strong>信息拥挤，小屏手机端杂乱。</p>
+        <div class="card-score score-high">视觉评分：★★★★☆</div>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img" src="https://img.alicdn.com/imgextra/i3/2214353771546/O1CN01lOQMt11NI7Rywjynh_!!4611686018427386906-0-item_pic.jpg" alt="简顿主图">
+      <div class="card-body">
+        <div class="card-name">竞品2 简顿灯具</div>
+        <div class="card-price red">¥808</div>
+        <span class="tag tag-comp">竞品</span>
+        <p class="card-desc">极简美学，留白大量空间。"5年只换不修"+"不够亮包退"强力背书。美国普瑞全光谱背书。<br><strong class="orange">缺点：</strong>纯白背景缺乏真实场景参照。</p>
+        <div class="card-score score-high">视觉评分：★★★★★</div>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img" src="https://img.alicdn.com/imgextra/i3/740958699/O1CN01fjw1HN2E8CVf5Tw7h-740958699.jpg" alt="雷士主图">
+      <div class="card-body">
+        <div class="card-name">竞品3 雷士照明</div>
+        <div class="card-price red">¥534</div>
+        <span class="tag tag-comp">竞品</span>
+        <p class="card-desc">中古风+大促混合型。悬浮光视觉效果独特，胡桃木纹差异化，IP40防护实用性突出。<br><strong class="orange">缺点：</strong>促销标签喧宾夺主，价格波动大引发顾虑。</p>
+        <div class="card-score score-high">视觉评分：★★★★☆</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: JTBD -->
+<div class="section">
+  <h2 class="section-title"><span class="title-icon">🎯</span>三、购买决策因子与JTBD分析</h2>
+  <table>
+    <tr>
+      <th>#</th><th>决策因子</th><th>权重</th><th>澳饰嘉现状</th><th>差距评估</th>
+    </tr>
+    <tr>
+      <td class="orange bold">1</td>
+      <td class="bold">亮度/够亮</td>
+      <td>25%</td>
+      <td class="green">有口碑（"亮度很亮"96+反馈）</td>
+      <td class="green">良好</td>
+    </tr>
+    <tr>
+      <td class="orange bold">2</td>
+      <td class="bold">护眼/全光谱</td>
+      <td>22%</td>
+      <td class="red">提及但无系统性传达，Ra≥97未突出</td>
+      <td class="red bold">差距最大</td>
+    </tr>
+    <tr>
+      <td class="orange bold">3</td>
+      <td class="bold">价格</td>
+      <td>18%</td>
+      <td class="green">有竞争力（¥279处于主流价格带）</td>
+      <td class="green">良好</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td class="bold">外观/设计</td>
+      <td>15%</td>
+      <td>水晶星空好看（148+反馈）</td>
+      <td class="orange">中等</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td class="bold">安装服务</td>
+      <td>10%</td>
+      <td class="green">包安装有口碑</td>
+      <td class="green">良好</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td class="bold">智能功能</td>
+      <td>7%</td>
+      <td class="orange">离线语音有，但APP生态弱</td>
+      <td class="orange">中等</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td class="bold">品牌力</td>
+      <td>3%</td>
+      <td class="red">较弱，缺乏护眼权威背书</td>
+      <td class="red">需提升</td>
+    </tr>
+  </table>
+  <div class="grid-2" style="margin-top:20px;">
+    <div class="analysis-box">
+      <h3>功能性JTBD</h3>
+      <ul>
+        <li>提供充足客厅照明（20-40㎡大空间够亮）</li>
+        <li>护眼需求——儿童视力保护、全光谱低蓝光</li>
+        <li>减少安装麻烦——免费上门安装、拆旧服务</li>
+      </ul>
+    </div>
+    <div class="analysis-box">
+      <h3>情感性 + 社会性JTBD</h3>
+      <ul>
+        <li>让家"显得有档次"——大气体面，拒绝廉价感</li>
+        <li>跟装修风格匹配——简约/中古/奶油风</li>
+        <li>朋友来访时有面子，符合"会选东西"认知</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: 机会与威胁 -->
+<div class="section">
+  <h2 class="section-title"><span class="title-icon">⚡</span>四、核心机会与威胁</h2>
+  <div class="opp">
+    <h4>🚀 最大机会点</h4>
+    <p>在200-300元价位建立"全光谱护眼+智能"双重壁垒。这是竞品薄弱区：Yeelight强智能但护眼一般；简顿强护眼但价格800+。澳饰嘉有机会在中间地带建立护眼心智，同时保持价格竞争力，<strong>截流简顿意向用户</strong>（觉得简顿太贵但想要护眼效果的人群）。</p>
+  </div>
+  <div class="threat">
+    <h4>⚠️ 最大威胁</h4>
+    <p>简顿"高端不高价"的心智入侵——用户一旦建立"要护眼就买简顿"的认知，将压缩整个中低价位的护眼升级空间。简顿2万+销量正在加速建立<strong>"护眼=简顿"</strong>的心智护城河。</p>
+  </div>
+  <div class="threat">
+    <h4>🔒 最需规避的陷阱</h4>
+    <p>不要走"参数堆砌"路线——Yeelight的教训是信息过于拥挤，审美调性下降，在小屏手机端显得杂乱。澳饰嘉应走"精准护眼+高颜值+合理价格"的品质路线，而非模仿Yeelight把所有参数都贴在主图上。</p>
+  </div>
+  <div class="opp">
+    <h4>💡 战略建议</h4>
+    <p>推出"护眼专家"子系列(¥299-399)，专门对标简顿300-500元价位段。用同等护眼参数+更低价格+颜值优势，打一场"护眼平替"战役。在详情页制作对比简顿的护眼参数PK表，主动争夺简顿意向用户流量。</p>
+  </div>
+</div>
+
+<!-- SECTION 5: 用户反馈 -->
+<div class="section">
+  <h2 class="section-title"><span class="title-icon">💬</span>五、用户反馈热词分析</h2>
+  <table>
+    <tr>
+      <th>品牌</th><th>正向热词Top5</th><th>痛点关键词</th><th>护眼提及率</th>
+    </tr>
+    <tr>
+      <td class="blue bold">澳饰嘉</td>
+      <td>外观好看(148) / 亮度很亮(96) / 价格实惠(57) / 功能可以直接喊(22) / 灯不错(37)</td>
+      <td class="orange">质量问题偶发；亮度对超大客厅可能不足</td>
+      <td class="orange">低（护眼功能仅5次提及）</td>
+    </tr>
+    <tr>
+      <td class="red">竞品1 Yeelight</td>
+      <td>亮度很亮(331) / 整体不错(590) / 安装简单(257) / 外观好看(213) / 物流很快(126)</td>
+      <td class="orange">服务保障评分偏低(4.4)；护眼非核心卖点</td>
+      <td class="orange">中</td>
+    </tr>
+    <tr>
+      <td class="red">竞品2 简顿</td>
+      <td class="green bold">外观好看(506) / 整体不错(568) / 安装服务好(464) / 亮度很亮(640) / 性价比高(145)</td>
+      <td>无缝≠完全贴顶有缝隙投诉；价格较贵</td>
+      <td class="green bold">极高（护眼口碑碾压级）</td>
+    </tr>
+    <tr>
+      <td class="red">竞品3 雷士</td>
+      <td>物流速度很快(10) / 设计挺好用(23) / 质量很不错(28) / 外形外观美观(30) / 品牌有口碑(17)</td>
+      <td class="red">亮度虚标投诉多；不贴顶缝隙；价格波动大</td>
+      <td>中（悬浮光/护眼有提及）</td>
+    </tr>
+  </table>
+  <div class="analysis-box" style="margin-top:20px;">
+    <h3>核心洞察</h3>
+    <ul>
+      <li>简顿的"亮度很亮"评论数(640)是<strong class="green">澳饰嘉(96)的6.7倍</strong>，说明其护眼+够亮的心智已建立完成</li>
+      <li>澳饰嘉"外观好看"正向反馈(148)说明颜值路线正确，但需叠加护眼心智</li>
+      <li>Yeelight"安装简单"(257)口碑突出，与米家智能生态形成服务闭环</li>
+      <li>雷士多条差评聚焦"亮度虚标""缝隙问题"，是澳饰嘉可以攻击的弱点</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 6: 三版优化方案 -->
+<div class="section">
+  <h2 class="section-title"><span class="title-icon">📋</span>六、三版优化方案</h2>
+  <div class="plan-grid">
+    <div class="plan-card plan-a">
+      <h3>方案A：护眼专家型</h3>
+      <span class="plan-tag">推荐优先级 ★★★★★</span>
+      <p>在200-300元价位建立"专业护眼灯"心智，对标简顿但价格亲民。目标：有儿童/青少年的家庭。</p>
+      <h4>详情页结构（7屏）</h4>
+      <ul>
+        <li>第1屏：痛点开场——"别让孩子在光污染里长大"</li>
+        <li>第2屏：Ra≥97全光谱产品亮相</li>
+        <li>第3屏：护眼技术拆解（全光谱+无可视频闪+RG0）</li>
+        <li>第4屏：真实护眼场景（儿童看书/家庭聚会）</li>
+        <li>第5屏：套餐组合+全屋优惠</li>
+        <li>第6屏：护眼口碑证言（精选"亮度够""不刺眼"类评价）</li>
+        <li>第7屏：行动号召+限时优惠</li>
+      </ul>
+      <h4>主图策略</h4>
+      <ul>
+        <li>去掉拥挤促销标签</li>
+        <li>强化Ra≥97护眼认证标识</li>
+        <li>增加"比简顿省500+"攻击性对比</li>
+      </ul>
+    </div>
+    <div class="plan-card plan-b">
+      <h3>方案B：颜值正义型</h3>
+      <span class="plan-tag">差异化竞争 ★★★☆☆</span>
+      <p>不打参数战，打设计审美战。目标：追求"好看的家"的年轻装修用户。</p>
+      <h4>详情页结构（7屏）</h4>
+      <ul>
+        <li>第1屏：场景开场——夜晚客厅全景，氛围感主图</li>
+        <li>第2屏：多角度产品展示（开灯/关灯/细节特写）</li>
+        <li>第3屏："点亮瞬间"动图展示三色变光</li>
+        <li>第4屏：品牌故事+中山灯具产业带背景</li>
+        <li>第5屏：全屋套餐搭配方案</li>
+        <li>第6屏："好看/大气"类评价精选</li>
+        <li>第7屏：服务保障+行动号召</li>
+      </ul>
+      <h4>风险提示</h4>
+      <ul>
+        <li>颜值路线竞争同样激烈，需与Yeelight拉开差距</li>
+        <li>适合作为方案A的辅助，不建议单独主推</li>
+      </ul>
+    </div>
+    <div class="plan-card plan-c">
+      <h3>方案C：价格尖刀型</h3>
+      <span class="plan-tag">流量收割 ★★☆☆☆</span>
+      <p>直接对标Yeelight，打"同等配置更低价格"。适合大促期间流量收割，不建议作为主推策略。</p>
+
+        <h4>详情页结构（6屏）</h4>
+        <ul>
+          <li>第1屏：价格炸弹——超大字体到手价</li>
+          <li>第2屏：参数PK表（澳饰嘉 vs Yeelight vs 简顿）</li>
+          <li>第3屏：功能图标列举（快速扫读）</li>
+          <li>第4屏：服务承诺——同价位服务更好对比</li>
+          <li>第5屏：套餐优惠+限时满减</li>
+          <li>第6屏：价格实惠类评价精选</li>
+        </ul>
+      </div>
+  </div>
+</div>
+
+<!-- SECTION 7: 不该模仿清单 -->
+<div class="section">
+  <h2 class="section-title"><span class="title-icon">🚫</span>七、不该模仿清单（3条）</h2>
+  <div class="avoid-box">
+    <h4>不要模仿Yeelight堆砌复杂参数标签</h4>
+    <p><span class="reason">原因：</span>Yeelight主图信息过于拥挤，视觉中心分散，在小屏幕手机端杂乱，反而削弱产品设计质感。澳饰嘉应走"精准少量信息+强视觉"的路线。</p>
+  </div>
+  <div class="avoid-box">
+    <h4>不要模仿简顿的纯白无场景主图</h4>
+    <p><span class="reason">原因：</span>简顿敢用纯白背景是因为其品牌力强（天猫热卖榜第1）+客单价高（800+元）的光环效应。澳饰嘉处于200-300元价位，用户需要更多的场景感和价值感，纯白背景会显得"廉价感"，必须保留场景营销。</p>
+  </div>
+  <div class="avoid-box">
+    <h4>不要模仿雷士的大促促销噪音型主图</h4>
+    <p><span class="reason">原因：</span>雷士的"百亿补贴""5折"等标签是品牌知名度高+大促节点的特殊手段。对澳饰嘉这样的中小品牌，频繁使用大促标签会损害品牌调性，用户会对"原价虚高"产生质疑，反而降低信任。日常销售应主打"品质稳定"和"护眼专家"心智。</p>
+  </div>
+</div>
+
+<!-- SECTION 8: V3攻防兼备版 -->
+<div class="section">
+  <h2 class="section-title"><span class="title-icon">🛡️</span>八、V3版本_攻防兼备派（综合推荐）</h2>
+
+  <div class="v3-box">
+    <h3>核心战略：「护眼普惠」</h3>
+    <div class="strategy">
+      <strong>一句话定位：</strong>"200元价位首款真正护眼的客厅吸顶灯"<br>
+      <strong>打简顿：</strong>同等护眼效果，价格只有1/3（279元 vs 808元）<br>
+      <strong>打Yeelight：</strong>同等价格区间，护眼标准更高（Ra≥97全光谱 vs Yeelight无明确护眼认证）
+    </div>
+  </div>
+
+  <h3 style="color:#e0e0ff;font-size:1.1em;margin:24px 0 14px;font-weight:700;">主图优化五步法</h3>
+  <div class="grid-2">
+    <div class="analysis-box">
+      <h3>Step 1-2：信息重组</h3>
+      <ul>
+        <li>去掉红蓝对比促销标签</li>
+        <li>主视觉：产品 + 护眼认证标识组合</li>
+        <li>Slogan强化：Ra≥97全光谱 · 护眼不伤眼</li>
+      </ul>
+    </div>
+    <div class="analysis-box">
+      <h3>Step 3-5：攻防兼备</h3>
+      <ul>
+        <li>价格锚定：279护眼价，与护眼概念绑定</li>
+        <li>信任背书：RG0/IEEE认证logo + 已售3000+件数</li>
+        <li>增加"比简顿省500+"攻击性对比标签</li>
+        <li>差异化视觉：温馨护眼风（区别于Yeelight科技感）</li>
+        <li>场景强化：儿童在灯下活动真实场景</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="color:#e0e0ff;font-size:1.1em;margin:24px 0 14px;font-weight:700;">SKU优化</h3>
+  <table>
+    <tr>
+      <th></th><th>优化前</th><th>优化后</th>
+    </tr>
+    <tr>
+      <td class="bold">标题</td>
+      <td class="red">2026新款客厅主灯大气水晶吸顶灯现代简约轻奢吊灯中山灯具全屋</td>
+      <td class="green">【全光谱护眼】2026客厅主灯Ra≥97高显色吸顶灯现代简约 适用20-40㎡</td>
+    </tr>
+    <tr>
+      <td class="bold">策略</td>
+      <td class="red">装饰词堆砌，无护眼关键词</td>
+      <td class="green">开头即护眼占据搜索关键词；保留风格适配；突出规格帮助决策</td>
+    </tr>
+  </table>
+
+  <h3 style="color:#e0e0ff;font-size:1.1em;margin:24px 0 14px;font-weight:700;">国补叠加策略</h3>
+  <div class="analysis-box">
+    <h3>政策红利机会</h3>
+    <ul>
+      <li>竞品现状：Yeelight/雷士均有国补标识；简顿以旧换新</li>
+      <li><strong class="green">澳饰嘉机会：</strong>在主图和详情页首屏增加"国补可叠加"标识（薅政策羊毛）</li>
+      <li><strong class="green">行动：</strong>申请加入天猫/京东国补商家池</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 9: 三团队行动清单 -->
+<div class="section">
+  <h2 class="section-title"><span class="title-icon">✅</span>九、三团队独立行动清单</h2>
+  <div class="action-grid">
+    <div class="action-card">
+      <h3><span class="team-icon team-design">&#127912;</span>视觉设计团队</h3>
+      <ul>
+        <li>重构主图5要素：护眼认证 + Ra≥97标识 + 价格锚定 + 场景图 + 社会证明</li>
+        <li>制作护眼技术可视化图解（替代纯文字）</li>
+        <li>重新设计详情页第1屏（痛点开场型）</li>
+        <li>设计套餐对比表模板（攻击Yeelight/简顿）</li>
+        <li>制作护眼知识小百科图文模块</li>
+        <li>制作2-3个详情页A/B测试版本</li>
+        <li>制作"点亮瞬间"动图/GIF素材（方案B用）</li>
+      </ul>
+    </div>
+    <div class="action-card">
+      <h3><span class="team-icon team-ops">&#128227;</span>运营推广团队</h3>
+      <ul>
+        <li>优化主图：去掉过度促销标签，强化Ra≥97全光谱护眼核心信息</li>
+        <li>主图增加护眼认证标识（RG0/IEEE/IEC等权威标准logo）</li>
+        <li>主图信息重组：品牌居中 + 护眼参数 + 价格利益点（按此优先级）</li>
+        <li>SKU标题SEO优化（加入"全光谱护眼"关键词）</li>
+        <li>详情页顶部增加"护眼知识小百科"模块</li>
+        <li>策划"有孩家庭"专属套餐SKU</li>
+        <li>评价管理：引导已购用户发布含"护眼""亮度"关键词的好评</li>
+        <li>竞品监控：每周抓取简顿/Yeelight主图变化</li>
+        <li>申请加入国补商家池</li>
+        <li>策划"护眼专题"直播间脚本</li>
+      </ul>
+    </div>
+    <div class="action-card">
+      <h3><span class="team-icon team-rd">&#128736;</span>产品研发团队</h3>
+      <ul>
+        <li>确认现有产品Ra实测值，若低于97需立即改进光源方案</li>
+        <li>申请RG0/IEEE护眼认证（周期3-6个月，提前布局）</li>
+        <li>开发"护眼套餐"SKU（客厅+书房+儿童房组合）</li>
+        <li>评估超薄无缝款新品（截流简顿意向用户）</li>
+        <li>语音控制功能升级（离线→APP控制，对标Yeelight智能生态）</li>
+        <li>全屋套餐产品线补充：更多客厅+卧室+餐厅组合方案</li>
+        <li>质量抽查：针对评价中质量一般/亮度不符问题排查</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 10: 效果预估 -->
+<div class="section">
+  <h2 class="section-title"><span class="title-icon">&#128200;</span>十、攻防兼备版效果预估</h2>
+  <table>
+    <tr>
+      <th>指标</th><th>当前基准</th><th>目标（3个月）</th><th>关键行动</th>
+    </tr>
+    <tr>
+      <td class="bold">主图点击率</td>
+      <td>基准</td>
+      <td class="green">+15%</td>
+      <td>主图A/B测试（当前版 vs 护眼重构版）</td>
+    </tr>
+    <tr>
+      <td class="bold">详情页停留时长</td>
+      <td>基准</td>
+      <td class="green">+25秒</td>
+      <td>护眼知识模块+场景图优化</td>
+    </tr>
+    <tr>
+      <td class="bold">加购率</td>
+      <td>基准</td>
+      <td class="green">+8%</td>
+      <td>套餐组合优化+优惠引导</td>
+    </tr>
+    <tr>
+      <td class="bold">转化率</td>
+      <td>基准</td>
+      <td class="green">+5%</td>
+      <td>详情页信任背书+护眼心智占领</td>
+    </tr>
+    <tr>
+      <td class="bold">评价总数</td>
+      <td>800+</td>
+      <td class="green">1500+</td>
+      <td>评价激励机制</td>
+    </tr>
+    <tr>
+      <td class="bold">"护眼"关键词评价占比</td>
+      <td>&lt;5%</td>
+      <td class="green">>20%</td>
+      <td>护眼口碑引导计划</td>
+    </tr>
+    <tr>
+      <td class="bold">竞品分流（从简顿）</td>
+      <td>0</td>
+      <td class="green">15%+</td>
+      <td>详情页PK对比表+护眼参数对比</td>
+    </tr>
+  </table>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>竞品分析报告_完整版_20260411-174500.html &nbsp;&middot;&nbsp; 澳饰嘉内部使用 &nbsp;&middot;&nbsp; 2026-04-11</p>
+  <p style="margin-top:8px;">Task ID: 20260411-174500 &nbsp;&middot;&nbsp; 采集竞品: 澳饰嘉 / Yeelight / 简顿 / 雷士 &nbsp;&middot;&nbsp; 报告生成时间: 2026-04-11 17:53</p>
+</div>
+
+</div>
+</body>
+</html>

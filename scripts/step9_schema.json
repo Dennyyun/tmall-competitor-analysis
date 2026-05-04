@@ -1,0 +1,99 @@
+{
+  "_说明": "Step 9 结构化输出 Schema - 运营决策简报。子 Agent 必须输出此格式的纯净 JSON。",
+  "_输出要求": "只输出 JSON；不要 Markdown 代码块；不要自然语言解释；不要输出归档报告样例中的冗长字段。",
+  "decision_mode": {
+    "business_goal": "string - 固定默认：提升转化",
+    "decision_type": "string - execute | experiment | collect_data | hold",
+    "decision_scope": "string - 标题首图 | SKU | 详情页 | 评价问答 | 价格 | 投放",
+    "reason": "string - 为什么当前属于这个决策类型"
+  },
+  "data_quality_gate": {
+    "can_make_final_decision": "boolean - 是否可以下最终决策",
+    "missing_critical_data": ["string - 缺失后会限制决策的关键数据"],
+    "weak_data_points": ["string - 存在但证据弱的数据点"],
+    "decision_limitation": "string - 本轮决策的边界和限制"
+  },
+  "conversion_blockers": [
+    {
+      "blocker": "string - 搜索承接弱/首图点击理由不足/SKU选择成本高/详情页信任链弱/评价问答不足/投放承接不足",
+      "severity": "string - high | medium | low",
+      "evidence": "string - 支撑该阻力的具体数据或字段",
+      "affected_stage": "string - 搜索点击前 | 点击决策 | 加购决策 | 下单决策 | 流量放大",
+      "priority": "string - P0 | P1 | P2"
+    }
+  ],
+  "evidence_chain": [
+    {
+      "evidence": "string - 原始证据",
+      "source": "string - 数据来源",
+      "business_interpretation": "string - 运营解释",
+      "supports_decision": "string - 该证据支持的决策判断"
+    }
+  ],
+  "decision_summary": {
+    "final_decision": "string - 本轮唯一主决策",
+    "why_this": "string - 为什么优先做这个",
+    "why_not_others": "string - 为什么其他方向暂缓",
+    "top3_actions": [
+      {
+        "priority": "string - P0 | P1 | P2",
+        "action_type": "string - 页面改版 | 数据补齐 | AB测试 | 评价运营 | 投放调整",
+        "owner": "string - 商品运营/设计/客服/投放/产品",
+        "action": "string - 具体动作",
+        "acceptance_criteria": "string - 验收标准；无baseline时只能写新旧版本胜出",
+        "dependent_data": ["string - 依赖的数据字段"],
+        "deadline": "string - 截止时间，如3天内/第1周",
+        "risk": "string - 执行风险"
+      }
+    ],
+    "not_do_now": [
+      {
+        "item": "string - 本轮暂不做的事项",
+        "reason": "string - 暂不做的原因"
+      }
+    ],
+    "expected_impact": "string - 预期影响，不编造精确提升比例",
+    "confidence_level": {
+      "level": "string - high | medium | low",
+      "reason": "string - 置信度原因",
+      "what_would_increase_confidence": ["string - 提升置信度所需数据"]
+    },
+    "decision_risks": ["string - 最大风险或验证风险"]
+  },
+  "validation_plan": {
+    "method": "string - AB测试 | 前后对比 | 人工审核 | 数据补齐",
+    "primary_metric": "string - 主指标，如点击率",
+    "secondary_metric": ["string - 辅指标，如加购率、咨询率、SKU点击率"],
+    "no_baseline_rule": "string - 没有baseline时，只判断新旧版本胜负，不编造精确增长比例"
+  },
+  "title_analysis": {
+    "current_title": "string - 当前自家标题",
+    "missing_keywords": ["string - 漏掉的高转化关键词"],
+    "competitor_keyword_patterns": ["string - 竞品标题共性"],
+    "optimized_titles": [
+      {
+        "title": "string - 可测试标题",
+        "intent": "string - 对应搜索意图/人群"
+      }
+    ]
+  },
+  "pricing_strategy": {
+    "price_position": "string - 我方价格带和竞品差距",
+    "promotion": ["string - 优惠券/套餐优惠/赠品/价保建议"]
+  },
+  "review_qa_insights": {
+    "purchase_reasons": ["string - 好评中反复出现的购买理由"],
+    "conversion_blockers": ["string - 问答中反复出现的下单顾虑"],
+    "review_guidance": ["string - 评价引导模板"],
+    "qa_to_seed": ["string - 建议补充的买家问答"]
+  },
+  "kpi_table": [
+    {
+      "metric": "string - 指标",
+      "current": "string - 当前基准",
+      "target": "string - 新旧版本对比胜出",
+      "target_cls": "string - green",
+      "action": "string - 关键行动"
+    }
+  ]
+}
