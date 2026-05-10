@@ -1,6 +1,6 @@
 ---
 name: tmall-ecommerce-competitor-analysis
-description: 天猫/淘宝竞品采集流水线与电商运营竞品分析合并技能。当天猫/淘宝商品链接、商品 ID、本地商品 JSON、竞品分析、商品拆解、定位分析、采集数据、生成 HTML 竞品报告、输出标题/主图/详情页/SKU/价格/评价/投放/30天行动计划等请求出现时使用；适合从链接自动采集，也适合对已有商品 JSON 直接做深度运营策略分析。
+description: 天猫/淘宝竞品采集流水线、电商运营竞品分析与新品上架全案技能。当天猫/淘宝商品链接、商品 ID、本地商品 JSON、竞品分析、商品拆解、定位分析、采集数据、生成 HTML 竞品报告、参考竞品做新品上架方案、设计超过竞品的卖点、五张主图逻辑、卖点转买点、决策指导、标题/主图/详情页/SKU/价格/评价/投放/30天行动计划等请求出现时使用；适合从链接自动采集，也适合对已有商品 JSON 直接做深度运营策略分析。
 ---
 
 # 天猫/电商竞品分析 Skill（采集流水线 + 运营策略版）
@@ -17,6 +17,7 @@ description: 天猫/淘宝竞品采集流水线与电商运营竞品分析合并
 - 用户说「采集数据」「出竞品报告」「直接分析这些 JSON」
 - 用户提供商品链接 / 商品 ID + 任务类型
 - 用户要求优化标题、主图、详情页、SKU、价格、评价、广告投放或 30 天行动计划
+- 用户要求「参考竞品做新品上架方案」「完全超过竞品的卖点设计」「五张主图逻辑」「卖点转买点」「决策指导」
 
 ***
 
@@ -26,12 +27,14 @@ description: 天猫/淘宝竞品采集流水线与电商运营竞品分析合并
 
 1. **自动化流水线能力**：沿用原 `tmall_competitor_analysis` 的采集、解析、状态机、HTML 报告、Cloudflare 上传、飞书归档能力。
 2. **运营决策能力**：采用 `ecommerce-competitor-analysis` 的分析框架，把标题关键词、SKU、价格带、用户评价、买家问答、转化阻力、竞品成交逻辑和可执行优化动作收敛为一个主决策。
+3. **新品上架全案能力**：参考竞品弱点和用户顾虑，设计自家超过竞品的卖点体系，将参数卖点转成用户买点，并落到标题、SKU、五张主图、详情页、合规文案和决策指导。
 
 执行时按数据来源选择路径：
 
 - **用户给天猫/淘宝链接或商品 ID**：优先走 Step 1-11 全流程，先采集再分析。
 - **用户已给本地 JSON 文件**：跳过 Step 2 采集，从 Step 3/4/7/8/9 开始；若 JSON 已是结构化商品数据，也可直接按「运营分析标准」输出 Markdown/HTML 报告。
 - **用户只要策略，不要 HTML/归档**：可只执行数据读取 + 运营分析报告，不强制上传 Cloudflare 或写飞书。
+- **用户要新品上架全案**：Step 9 必须读取 `references/product-launch-plan-framework.md`，在常规决策字段之外输出 `launch_plan`；随后执行 `scripts/render_launch_plan.py` 生成固定六章结构 Markdown。若只需 Markdown 全案，可不强制执行 Step 10。
 
 ### 运营决策标准（Step 9 必须吸收）
 
@@ -43,6 +46,8 @@ description: 天猫/淘宝竞品采集流水线与电商运营竞品分析合并
 - `evidence_chain`：原始数据 → 运营解释 → 决策判断 → 执行动作。
 - `decision_summary`：本轮主决策、Top3动作、本轮不做、置信度和风险。
 - `validation_plan`：AB测试或前后对比规则；没有 baseline 时只判断新旧版本胜负，不编造增长比例。
+- `launch_plan`（按需）：新品上架全案，包含市场概览、SKU方案、超过竞品的核心打法、三层买点体系、卖点转买点、五张主图执行稿、详情页方案、决策指导和合规注意事项。
+- `新品上架全案_{taskId}.md`（按需）：最终交付给运营/美工的固定六章 Markdown 全案，必须由原始评价和问答证据支撑。
 
 支撑分析必须覆盖：
 
@@ -54,6 +59,8 @@ description: 天猫/淘宝竞品采集流水线与电商运营竞品分析合并
 - 竞品成功逻辑：逐个解释竞品靠品牌、价格、功能、套餐、服务、视觉、内容或渠道中的哪一个成交。
 - 我方突破口：用「竞品弱点 / 用户痛点 / 我方打法」表格输出。
 - 可执行方案：标题、主图逐张任务、详情页模块顺序、SKU命名、价格梯度、评价引导、搜索词/竞品词/内容种草方向。
+- 新品上架全案：当用户要求参考竞品做新品方案时，必须输出“如果要超过竞品，我方靠什么赢”、五张主图逻辑、卖点转买点表和决策指导模块。
+- 用户反馈洞察：涉及评论、评价、问答的判断必须从 `raw/*.json` 的 `feedback` / `question` 原文提取，回到评价编号或问答 Q 编号；不得只使用摘要字段。
 - 本轮不做：明确暂不降价、暂不放大投放或暂不大改详情页等运营取舍。
 - 30天行动计划：第1周到第4周给出运营、美工、投放、客服可执行动作。
 
@@ -194,7 +201,7 @@ else:
 
 ***
 
-【当前版本】v7.0。历史上 Step 5/6 已在 v6.0 合并入 Step 4；当前 v7.0 将 Step 4 拆分为 4a/4b/4c/4d，并新增状态机断点续跑。
+【当前版本】v7.1 灯具/照明新品上架全案生产版。历史上 Step 5/6 已在 v6.0 合并入 Step 4；v7.0 将 Step 4 拆分为 4a/4b/4c/4d 并新增状态机断点续跑；v7.1 合并运营决策框架和新品上架全案框架，默认支持灯具/照明类目的新品上架全案交付。
 
 ***
 
@@ -241,6 +248,7 @@ sm.mark(current_step, StepStatus.FAILED, error=error_msg)
 | **Step 8** | **子 Agent** | **m08\_analysis.md** | **视觉分析（输入: step8\_visual\_input.json, ~3KB）** |
 | Step 9 | 子 Agent | m09\_plan.md | 优化方案生成 |
 | Step 9.5 | Master 脚本 | consolidate\_json.py | 合并 Step 8+9 到 analysis.json |
+| Step 9.6 | Master 脚本 | render\_launch\_plan.py | 按需生成固定六章 Markdown 新品上架全案 |
 | Step 10 | Master 脚本 | m10\_html.md → report\_template.py | HTML 报告生成 |
 | Step 10.5 | Master 脚本 | upload\_to\_cloudflare.py | 上传到 Cloudflare R2 |
 | Step 11 | 子 Agent | m11\_feishu.md | 飞书通知 |
@@ -257,6 +265,8 @@ sm.mark(current_step, StepStatus.FAILED, error=error_msg)
 
 > 📖 **技术规范与架构约束已抽离至 [SKILL_REFERENCE.md](./SKILL_REFERENCE.md) ，如需查看风控配置、报告生成底层逻辑、或禁止行为准则，请参阅该文件。**
 > 📖 **运营分析维度已抽离至 [operations-analysis-framework.md](./references/operations-analysis-framework.md)，Step 8/9 或直接分析本地 JSON 时必须遵守。**
+> 📖 **新品上架全案框架已抽离至 [product-launch-plan-framework.md](./references/product-launch-plan-framework.md)，当用户要求新品上架、五张主图、卖点转买点或决策指导时必须遵守。**
+> 📖 **正式使用 SOP 已沉淀至 [production-sop.md](./references/production-sop.md)，用于规范 self/p1/p2/p3 准备、taskId 命名、运行命令和最终 Markdown 验收。**
 
 ***
 
@@ -272,8 +282,9 @@ Step 4c    洞察分析【子 Agent】（读取 raw/parse_result.json → step4c
 Step 4d    数据合并【本地执行】（主 Agent：执行 merge_step4.py → analysis.json）
 Step 7     生成原始数据 MD【本地执行】（主 Agent：执行 generate_raw_md.py）
 Step 8     视觉分析【子 Agent】（先执行 generate_visual_input.py，然后派发 → analysis.json）
-Step 9     运营决策【子 Agent】（输出 step9_plan.json，首要字段为 decision_summary）
+Step 9     运营决策【子 Agent】（输出 step9_plan.json，首要字段为 decision_summary；按需输出 launch_plan）
 Step 9.5   数据收敛【本地执行】（主 Agent：执行 consolidate_json.py）
+Step 9.6   新品上架全案【本地执行】（按需执行 render_launch_plan.py，输出固定六章 Markdown）
 Step 10    生成报告【本地执行】（主 Agent：执行 report_template.py）
 Step 10.5  上传报告【本地执行】（主 Agent：执行 upload_to_cloudflare.py）
 Step 11    飞书存档【子 Agent】（飞书通知）
@@ -307,6 +318,8 @@ Step 9 (优化方案) → step9_plan.json 【子Agent，依赖Step8的visual_ana
     ↓
 Step 9.5 (数据收敛) → analysis.json 更新 【本地执行，合并Step9 JSON】
     ↓
+Step 9.6 (新品上架全案) → 新品上架全案_{taskId}.md 【本地执行，按需生成】
+    ↓
 Step 10 (HTML决策简报) → HTML文件 【本地执行，模板渲染】
     ↓
 Step 10.5 (Cloudflare上传) → 读取 ./modules/m10\_cloudflare.md 并执行 upload\_to\_cloudflare.py → cloudflare\_url.txt 【本地执行，获取公共URL】 ★ 新增
@@ -326,6 +339,9 @@ Step 11 (飞书) → 飞书存档 【子Agent，飞书API调用】
 - Step 8 必须在 Step 4a 和 Step 7 完成后执行（依赖 step4a_landscape.json 中的定位字段，也依赖 step1_*.md 原始数据文件，可与 4b/4c 并行）
 - Step 8 写入 visual\_analysis 时**必须包含 desc 字段**（模板通过 `visual.get('self',{}).get('desc','')` 读取）
 - Step 9 必须在 Step 8 完成后执行（依赖 analysis.json 中的 visual\_analysis），且必须吸收 `references/operations-analysis-framework.md` 中的决策机制、数据门槛、证据链、转化阻力、标题、主图、详情页、SKU、价格、评价、投放和 30 天计划标准
+- 当任务包含新品上架方案、超过竞品、五张主图、卖点转买点或决策指导时，Step 9 必须额外吸收 `references/product-launch-plan-framework.md`，输出 `launch_plan`，其中 `decision_guidance` 必须说明本轮优先动作、暂不做事项和验证规则
+- 当用户最终要“新品上架全案/新品策划全案”正文时，必须在 Step 9/9.5 后执行 `scripts/render_launch_plan.py`，最终 Markdown 顶层结构固定为：一、竞品市场概览；二、卖点策划方案；三、SKU方案策划；四、卖点转化为买点：创意图文案；五、决策指导模块；六、合规注意事项
+- 评价/问答洞察必须直接来自原始 `feedback` / `question`，并引用评价编号或问答 Q 编号；摘要字段只能辅助定位
 - Step 9 必须写入 `decision_mode`、`data_quality_gate`、`conversion_blockers`、`evidence_chain`、`decision_summary`、`validation_plan`；缺失时 Step 10 禁止生成决策简报
 - Step 9.5 必须在 Step 9 完成后执行（合并 step9\_plan.json 进 analysis.json）
 - Step 10 必须等待 Step 9.5 完成（检查 analysis.json 完整字段）
@@ -360,6 +376,6 @@ Cloudflare链接：{cloudflare_url}          ★ 新增
 
 ***
 
-_Skill 版本：v7.1-merged_
-_核心优化：在 v7.0 采集/解析/HTML/归档流水线基础上，合并电商运营决策框架，强化数据门槛、证据链、转化阻力诊断、唯一主决策、Top3动作和验证闭环。_
-_Last updated: 2026-05-02_
+_Skill 版本：v7.1 灯具/照明新品上架全案生产版_
+_核心优化：在 v7.0 采集/解析/HTML/归档流水线基础上，合并电商运营决策框架与新品上架全案框架，强化数据门槛、证据链、转化阻力诊断、唯一主决策、Top3动作、五张主图、卖点转买点、决策指导和验证闭环。_
+_Last updated: 2026-05-06_

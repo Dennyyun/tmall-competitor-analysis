@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Step 10 - render the operations decision brief HTML report."""
 
 from __future__ import annotations
@@ -583,6 +583,123 @@ def render_section_5() -> str:
     """
 
 
+def render_launch_table(items: Any, columns: list[tuple[str, str]]) -> str:
+    rows = []
+    for item in as_list(items):
+        if isinstance(item, dict):
+            rows.append(tr([td(item.get(key, "")) for key, _ in columns]))
+        else:
+            rows.append(tr([td(item)] + [td("") for _ in columns[1:]]))
+    if not rows:
+        rows.append(tr([td("暂无")] + [td("") for _ in columns[1:]]))
+    return "<table>" + tr([th(label) for _, label in columns]) + "".join(rows) + "</table>"
+
+
+def render_launch_plan() -> str:
+    launch = A.get("launch_plan", {}) if isinstance(A.get("launch_plan"), dict) else {}
+    if not launch:
+        return ""
+
+    market = launch.get("market_overview", {}) if isinstance(launch.get("market_overview"), dict) else {}
+    surpass = launch.get("surpass_strategy", {}) if isinstance(launch.get("surpass_strategy"), dict) else {}
+    value_system = launch.get("value_proposition_system", {}) if isinstance(launch.get("value_proposition_system"), dict) else {}
+    guidance = launch.get("decision_guidance", {}) if isinstance(launch.get("decision_guidance"), dict) else {}
+    sku = launch.get("sku_strategy", {}) if isinstance(launch.get("sku_strategy"), dict) else {}
+    super_buy = value_system.get("super_buy_point", {}) if isinstance(value_system.get("super_buy_point"), dict) else {}
+
+    decision_matrix = render_launch_table(
+        guidance.get("decision_matrix"),
+        [
+            ("option", "可选动作"),
+            ("conversion_impact", "转化影响"),
+            ("competitor_scarcity", "竞品稀缺"),
+            ("implementation_feasibility", "可落地"),
+            ("compliance_risk", "合规风险"),
+            ("score", "综合分"),
+            ("decision", "判断"),
+        ],
+    )
+    buy_point_rows = render_launch_table(
+        launch.get("buy_point_conversion"),
+        [
+            ("user_inner_voice", "用户内心独白"),
+            ("selling_point", "产品卖点"),
+            ("scene_expression", "场景化买点"),
+            ("landing_position", "落地位置"),
+        ],
+    )
+    main_image_rows = render_launch_table(
+        launch.get("main_image_plan"),
+        [
+            ("image_no", "图序"),
+            ("buy_point", "买点"),
+            ("visual_scene", "画面"),
+            ("headline", "主标题"),
+            ("supporting_copy", "辅助文案"),
+            ("avoid", "禁用"),
+        ],
+    )
+    compliance_rows = render_launch_table(
+        launch.get("compliance_notes"),
+        [
+            ("risky_expression", "风险表达"),
+            ("safe_alternative", "替代表达"),
+            ("reason", "原因"),
+        ],
+    )
+
+    return f"""
+    <section class="section" id="launch">
+      <div class="section-kicker">06</div>
+      <h2>新品上架全案</h2>
+      <div class="decision-copy">
+        <p><strong>超过竞品的核心打法：</strong>{esc(surpass.get("core_strategy") or "暂无")}</p>
+        <p><strong>为什么能赢：</strong>{esc(surpass.get("why_can_win") or "暂无")}</p>
+      </div>
+      <div class="grid-2">
+        <div class="panel">
+          <h3>市场关键发现</h3>
+          {ul(market.get("key_findings"))}
+        </div>
+        <div class="panel">
+          <h3>超级买点</h3>
+          <p><strong>原始卖点：</strong>{esc(super_buy.get("raw_selling_point") or "暂无")}</p>
+          <p><strong>用户痛点：</strong>{esc(super_buy.get("user_pain") or "暂无")}</p>
+          <p><strong>页面表达：</strong>{esc(super_buy.get("page_expression") or "暂无")}</p>
+        </div>
+      </div>
+      <h3 class="subhead">决策指导</h3>
+      <div class="grid-2">
+        <div class="panel hero-panel">
+          <p><strong>本轮目标：</strong>{esc(guidance.get("decision_goal") or "暂无")}</p>
+          <p><strong>优先判断：</strong>{esc(guidance.get("priority_judgement") or "暂无")}</p>
+          <p><strong>推荐路径：</strong>{esc(guidance.get("recommended_path") or "暂无")}</p>
+          <p><strong>验证规则：</strong>{esc(guidance.get("validation_rule") or "暂无")}</p>
+        </div>
+        <div class="panel">
+          <h3>本轮暂不做</h3>
+          {ul(guidance.get("not_do_now"))}
+        </div>
+      </div>
+      {decision_matrix}
+      <h3 class="subhead">SKU 方案</h3>
+      <div class="grid-2">
+        <div class="panel"><h3>命名规则</h3>{ul(sku.get("naming_rules"))}</div>
+        <div class="panel"><h3>定价逻辑</h3>{ul(sku.get("pricing_logic"))}</div>
+      </div>
+      <h3 class="subhead">卖点转买点</h3>
+      {buy_point_rows}
+      <h3 class="subhead">五张主图执行稿</h3>
+      {main_image_rows}
+      <h3 class="subhead">详情页与合规</h3>
+      <div class="grid-2">
+        <div class="panel"><h3>详情页顺序</h3>{ul(launch.get("detail_page_plan"))}</div>
+        <div class="panel"><h3>合规注意事项</h3>{compliance_rows}</div>
+      </div>
+    </section>
+    """
+
+
 CSS = """
 <style>
 * { box-sizing: border-box; }
@@ -660,43 +777,173 @@ li { margin: 4px 0; }
 """
 
 
-toc_html = """
+
+def render_daily_table(rows: Any, columns: list[tuple[str, str]]) -> str:
+    items = as_list(rows)
+    if not items:
+        span = max(len(columns), 1)
+        return f'<table><tr>{"".join([th(label) for _, label in columns])}</tr><tr><td colspan="{span}">暂无</td></tr></table>'
+    body = []
+    for item in items:
+        if not isinstance(item, dict):
+            item = {columns[0][0]: item}
+        body.append(tr([td(item.get(key, "")) for key, _label in columns]))
+    return "<table><tr>" + "".join([th(label) for _key, label in columns]) + "</tr>" + "".join(body) + "</table>"
+
+
+def render_daily_p0(items: Any) -> str:
+    cards = []
+    for index, item in enumerate(as_list(items)[:3], start=1):
+        if not isinstance(item, dict):
+            item = {"title": item}
+        cards.append(
+            f'''
+            <div class="panel">
+              <h3>P0-{index} {esc(item.get("title") or "今日必须处理")}</h3>
+              <p><strong>竞品动作：</strong>{esc(item.get("competitor_action") or "待补充")}</p>
+              <p><strong>业务判断：</strong>{esc(item.get("business_judgment") or "待补充")}</p>
+              <p><strong>我方建议：</strong>{esc(item.get("our_recommendation") or "待确认")}</p>
+              <p><strong>负责人：</strong>{esc(item.get("owner") or "待确认")}</p>
+              <p><strong>截止时间：</strong>{esc(item.get("deadline") or "待确认")}</p>
+            </div>
+            '''
+        )
+    return "".join(cards) or '<div class="panel"><p>今日无 P0 必须处理事项。</p></div>'
+
+
+def render_daily_report() -> str:
+    daily = A.get("daily_report", {}) if isinstance(A.get("daily_report"), dict) else {}
+    if not daily:
+        return ""
+    appendix = daily.get("appendix", {}) if isinstance(daily.get("appendix"), dict) else {}
+    product = appendix.get("product", {}) if isinstance(appendix.get("product"), dict) else {}
+    sales = appendix.get("sales", {}) if isinstance(appendix.get("sales"), dict) else {}
+    technical = appendix.get("technical", {}) if isinstance(appendix.get("technical"), dict) else {}
+
+    product_rows = [{"item": key, "value": value} for key, value in product.items()]
+    sales_rows = [{"item": key, "value": value} for key, value in sales.items()]
+    technical_rows = [{"item": key, "value": value} for key, value in technical.items()]
+
+    return f'''
+    <section class="hero" id="top">
+      <div class="eyebrow">竞品盯防日报</div>
+      <h1>{esc(daily.get("title") or "竞品盯防日报")}</h1>
+      <p class="subtitle">生成日期: {esc(A.get("analysis_date", ""))}</p>
+    </section>
+    <nav class="toc">
+      <a href="#conclusion">01 今日一句话结论</a>
+      <a href="#p0">02 今日必须处理 P0</a>
+      <a href="#p1">03 今日观察 P1</a>
+      <a href="#p2">04 今日记录 P2</a>
+      <a href="#not-do">05 不建议动作</a>
+      <a href="#review">06 复盘任务</a>
+      <a href="#appendix">07 详细数据附录</a>
+    </nav>
+    <section class="section" id="conclusion">
+      <div class="section-kicker">01</div>
+      <h2>今日一句话结论</h2>
+      <div class="decision-copy"><p>{esc(daily.get("one_sentence") or "今日无需要处理的竞品动作。")}</p></div>
+    </section>
+    <section class="section" id="p0">
+      <div class="section-kicker">02</div>
+      <h2>今日必须处理 P0</h2>
+      <div class="grid-2">{render_daily_p0(daily.get("p0"))}</div>
+    </section>
+    <section class="section" id="p1">
+      <div class="section-kicker">03</div>
+      <h2>今日观察 P1</h2>
+      {render_daily_table(daily.get("p1"), [("item", "事项"), ("observe_until", "观察截止"), ("focus", "观察重点"), ("owner", "负责人")])}
+    </section>
+    <section class="section" id="p2">
+      <div class="section-kicker">04</div>
+      <h2>今日记录 P2</h2>
+      {render_daily_table(daily.get("p2"), [("item", "事项"), ("note", "记录说明"), ("next", "后续处理")])}
+    </section>
+    <section class="section" id="not-do">
+      <div class="section-kicker">05</div>
+      <h2>不建议动作</h2>
+      {ul(daily.get("not_recommended"))}
+    </section>
+    <section class="section" id="review">
+      <div class="section-kicker">06</div>
+      <h2>复盘任务</h2>
+      {render_daily_table(daily.get("review_tasks"), [("task", "复盘项"), ("date", "复盘日期"), ("owner", "负责人"), ("output", "本次建议输出"), ("previous_result", "上次执行结果")])}
+    </section>
+    <section class="section" id="appendix">
+      <div class="section-kicker">07</div>
+      <h2>详细数据附录</h2>
+      <h3 class="subhead">商品与快照</h3>
+      {render_daily_table(product_rows, [("item", "项目"), ("value", "内容")])}
+      <h3 class="subhead">我方对照数据</h3>
+      {render_daily_table(appendix.get("our_comparison"), [("sku", "SKU"), ("price", "我方当前价格"), ("gap", "与竞品价差"), ("stock", "我方库存"), ("campaign", "是否有在投活动"), ("action", "处理")])}
+      <h3 class="subhead">可见销量 / GMV 下限</h3>
+      {render_daily_table(sales_rows, [("item", "项目"), ("value", "内容")])}
+      <h3 class="subhead">技术执行结果</h3>
+      {render_daily_table(technical_rows, [("item", "检查项"), ("value", "结果")])}
+    </section>
+    '''
+
+if isinstance(A.get("daily_report"), dict):
+    html_parts = [
+        "<!DOCTYPE html>",
+        '<html lang="zh-CN">',
+        "<head>",
+        '<meta charset="UTF-8">',
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        f"<title>竞品盯防日报_{esc(TASK_ID)}</title>",
+        CSS,
+        "</head>",
+        "<body>",
+        '<div class="container">',
+        render_daily_report(),
+        '<div class="footer">',
+        f"<p>竞品盯防日报 | Task ID: {esc(TASK_ID)} · 生成时间: {esc(A.get('analysis_date', ''))}</p>",
+        "<p>行动优先，支撑信息靠后；技术细节置于附录。</p>",
+        "</div>",
+        "</div>",
+        "</body>",
+        "</html>",
+    ]
+else:
+    launch_toc = '  <a href="#launch">06 新品上架全案</a>\n' if isinstance(A.get("launch_plan"), dict) and A.get("launch_plan") else ""
+    toc_html = f"""
 <nav class="toc">
   <a href="#decision">01 本轮主决策</a>
   <a href="#why">02 为什么这样做</a>
   <a href="#actions">03 Top3动作</a>
   <a href="#validation">04 验证方案</a>
   <a href="#support">05 关键支撑数据</a>
+{launch_toc.rstrip()}
 </nav>
 """
 
-html_parts = [
-    "<!DOCTYPE html>",
-    '<html lang="zh-CN">',
-    "<head>",
-    '<meta charset="UTF-8">',
-    '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
-    f"<title>竞品分析决策简报_{esc(TASK_ID)}</title>",
-    CSS,
-    "</head>",
-    "<body>",
-    '<div class="container">',
-    render_decision_header(),
-    toc_html,
-    render_section_1(),
-    render_section_2(),
-    render_section_3(),
-    render_section_4(),
-    render_section_5(),
-    '<div class="footer">',
-    f"<p>竞品分析决策简报 | Task ID: {esc(TASK_ID)} · 生成时间: {esc(A.get('analysis_date', ''))}</p>",
-    "<p>数据来源：天猫商品 JSON · 只保留关键决策证据</p>",
-    "</div>",
-    "</div>",
-    "</body>",
-    "</html>",
-]
-
+    html_parts = [
+        "<!DOCTYPE html>",
+        '<html lang="zh-CN">',
+        "<head>",
+        '<meta charset="UTF-8">',
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        f"<title>竞品分析决策简报_{esc(TASK_ID)}</title>",
+        CSS,
+        "</head>",
+        "<body>",
+        '<div class="container">',
+        render_decision_header(),
+        toc_html,
+        render_section_1(),
+        render_section_2(),
+        render_section_3(),
+        render_section_4(),
+        render_section_5(),
+        render_launch_plan(),
+        '<div class="footer">',
+        f"<p>竞品分析决策简报 | Task ID: {esc(TASK_ID)} · 生成时间: {esc(A.get('analysis_date', ''))}</p>",
+        "<p>数据来源：天猫商品 JSON · 只保留关键决策证据</p>",
+        "</div>",
+        "</div>",
+        "</body>",
+        "</html>",
+    ]
 html_output = "\n".join(html_parts)
 
 html_file = os.path.join(OUT_DIR, f"竞品分析报告_完整版_{TASK_ID}.html")
@@ -714,3 +961,5 @@ try:
     print(f"STATUS: SUCCESS | path={html_file}")
 except Exception as exc:
     fail_exit(str(exc))
+
+

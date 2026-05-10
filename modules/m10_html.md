@@ -69,8 +69,10 @@ python scripts/report_template.py {taskId}
 3. 校验决策简报所需字段，缺少 `decision_summary` / `decision_mode` / `data_quality_gate` 等字段时中止
 4. 将 `experiment`、`medium`、`can_make_final_decision` 等技术字段翻译为运营可读语言
 5. 渲染 5 段式运营决策简报：本轮主决策、为什么这样做、Top3执行动作、验证方案、关键支撑数据
-6. 压缩展示标题、价格、评价问答等支撑材料，只保留决策简报需要的信息
-7. 输出 `竞品分析报告_完整版_{taskId}.html`
+6. 如果 `analysis.json` 存在 `launch_plan`，额外渲染“新品上架全案”摘要，展示超过竞品的核心打法、决策指导、五张主图和卖点转买点
+7. 若用户要完整“新品上架全案/新品策划全案”，HTML 之外还必须执行 `scripts/render_launch_plan.py`，生成固定六章 Markdown 全案
+8. 压缩展示标题、价格、评价问答等支撑材料，只保留决策简报需要的信息
+8. 输出 `竞品分析报告_完整版_{taskId}.html`
 
 ---
 

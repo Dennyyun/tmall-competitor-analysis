@@ -82,8 +82,9 @@
     "promotion": ["string - 优惠券/套餐优惠/赠品/价保建议"]
   },
   "review_qa_insights": {
-    "purchase_reasons": ["string - 好评中反复出现的购买理由"],
-    "conversion_blockers": ["string - 问答中反复出现的下单顾虑"],
+    "_证据要求": "必须从 raw/*.json 的 feedback/question 原始文本提取；每条关键洞察需引用评价#编号或问答Q编号，不能只引用摘要字段。",
+    "purchase_reasons": ["string - 好评中反复出现的购买理由，需带评价#编号"],
+    "conversion_blockers": ["string - 问答中反复出现的下单顾虑，需带问答Q编号"],
     "review_guidance": ["string - 评价引导模板"],
     "qa_to_seed": ["string - 建议补充的买家问答"]
   },
@@ -95,5 +96,89 @@
       "target_cls": "string - green",
       "action": "string - 关键行动"
     }
-  ]
+  ],
+  "launch_plan": {
+    "_说明": "object - 可选，新品上架全案。用户要求新品上架方案、五张主图、卖点转买点或决策指导时必须输出。最终 Markdown 由 scripts/render_launch_plan.py 按固定五章结构渲染。",
+    "market_overview": {
+      "competitor_table": [
+        {
+          "brand": "string - 自家/竞品名称",
+          "price": "string - 券后价或价格带",
+          "sales": "string - 已售量",
+          "reviews": "string - 评价数",
+          "core_advantage": "string - 核心优势",
+          "core_weakness": "string - 核心弱点"
+        }
+      ],
+      "key_findings": ["string - 市场关键发现"]
+    },
+    "surpass_strategy": {
+      "core_strategy": "string - 完全超过竞品的核心打法",
+      "why_can_win": "string - 为什么我方能赢",
+      "competitor_weakness_to_attack": ["string - 要攻击的竞品弱点"],
+      "own_strength_to_amplify": ["string - 要放大的我方优势"]
+    },
+    "value_proposition_system": {
+      "super_buy_point": {
+        "raw_selling_point": "string - 原始卖点",
+        "user_pain": "string - 用户痛点",
+        "usage_scene": "string - 使用场景",
+        "user_benefit": "string - 用户收益",
+        "purchase_reason": "string - 购买理由",
+        "page_expression": "string - 页面表达"
+      },
+      "important_buy_points": ["object|string - 重要买点"],
+      "supporting_buy_points": ["object|string - 辅助买点"]
+    },
+    "decision_guidance": {
+      "decision_goal": "string - 本轮目标，如提升点击/提升转化/提高客单/降低咨询阻力",
+      "priority_judgement": "string - 为什么当前优先做这个动作",
+      "decision_matrix": [
+        {
+          "option": "string - 可选动作",
+          "conversion_impact": "number|string - 影响转化评分1-5",
+          "competitor_scarcity": "number|string - 竞品稀缺评分1-5",
+          "implementation_feasibility": "number|string - 自身可落地评分1-5",
+          "compliance_risk": "string - low | medium | high",
+          "score": "number|string - 综合分",
+          "decision": "string - 做/暂缓/先补数据"
+        }
+      ],
+      "recommended_path": "string - 本轮推荐路径",
+      "not_do_now": ["object|string - 本轮暂不做事项及原因"],
+      "validation_rule": "string - 验证方式和判断胜负标准"
+    },
+    "sku_strategy": {
+      "naming_rules": ["string - SKU命名规则"],
+      "recommended_skus": ["object|string - 推荐SKU"],
+      "pricing_logic": ["string - 定价逻辑"],
+      "sku_image_advice": ["string - SKU图建议"]
+    },
+    "buy_point_conversion": [
+      {
+        "user_inner_voice": "string - 用户内心独白",
+        "selling_point": "string - 产品卖点",
+        "scene_expression": "string - 场景化买点文案",
+        "landing_position": "string - 落地位置"
+      }
+    ],
+    "main_image_plan": [
+      {
+        "image_no": "string - 图1到图5",
+        "buy_point": "string - 用户买点",
+        "visual_scene": "string - 画面建议",
+        "headline": "string - 主标题",
+        "supporting_copy": "string - 辅助文案",
+        "avoid": "string - 禁用表达或画面"
+      }
+    ],
+    "detail_page_plan": ["object|string - 详情页核心屏顺序与文案"],
+    "compliance_notes": [
+      {
+        "risky_expression": "string - 禁用或高风险表达",
+        "safe_alternative": "string - 合规替代表达",
+        "reason": "string - 风险原因"
+      }
+    ]
+  }
 }

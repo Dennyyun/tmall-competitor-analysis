@@ -12,13 +12,15 @@
         {
           "strengths": "string - 主图1优势",
           "weaknesses": "string - 主图1弱点",
-          "opportunities": "string - 主图1机会"
+          "opportunities": "string - 主图1机会",
+          "recommended_task": "string - 主图1应承担的转化任务"
         }
       ],
       "detail_page": {
         "structure": "string - 详情页整体结构",
         "trust": "string - 信任建立方式",
-        "cta": "string - 行动引导设计"
+        "cta": "string - 行动引导设计",
+        "recommended_order": ["string - 建议详情页模块顺序"]
       }
     },
     "p1": {
@@ -30,13 +32,15 @@
         {
           "strengths": "string",
           "weaknesses": "string",
-          "opportunities": "string"
+          "opportunities": "string",
+          "recommended_task": "string"
         }
       ],
       "detail_page": {
         "structure": "string",
         "trust": "string",
-        "cta": "string"
+        "cta": "string",
+        "recommended_order": ["string"]
       }
     },
     "p2": {
@@ -48,13 +52,15 @@
         {
           "strengths": "string",
           "weaknesses": "string",
-          "opportunities": "string"
+          "opportunities": "string",
+          "recommended_task": "string"
         }
       ],
       "detail_page": {
         "structure": "string",
         "trust": "string",
-        "cta": "string"
+        "cta": "string",
+        "recommended_order": ["string"]
       }
     },
     "p3": {
@@ -66,13 +72,15 @@
         {
           "strengths": "string",
           "weaknesses": "string",
-          "opportunities": "string"
+          "opportunities": "string",
+          "recommended_task": "string"
         }
       ],
       "detail_page": {
         "structure": "string",
         "trust": "string",
-        "cta": "string"
+        "cta": "string",
+        "recommended_order": ["string"]
       }
     }
   },

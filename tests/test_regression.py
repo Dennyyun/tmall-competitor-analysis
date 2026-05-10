@@ -81,6 +81,35 @@ class RegressionTests(unittest.TestCase):
         self.assertIn("preview", parsed)
         self.assertIn("_note", parsed)
 
+    def test_render_launch_plan_extracts_raw_review_and_qa_evidence(self):
+        module = load_module("render_launch_plan_test", "render_launch_plan.py")
+        feedback = """【竞品全局印象标签】：
+外观好看(2)
+
+【竞品详细评价抽样】：
+1. [好评 · 有图 · SKU]
+   初评: 灯很漂亮，安装师傅专业。
+   追评: 语音控制方便。
+
+2. [差评 · 无图 · SKU]
+   初评: 售后差，实物和图片不符合。
+"""
+        question = """【买家售前顾虑标签（提问焦点）】：
+质量(1)
+
+【核心问答抽样】：
+Q1. [提问] 还需要买个天猫精灵吗？ (共3个回答)
+   A: 普通版有遥控器 [已购 · SKU]
+"""
+
+        reviews = module.parse_reviews(feedback)
+        questions = module.parse_questions(question)
+
+        self.assertEqual(len(reviews), 2)
+        self.assertEqual(len(questions), 1)
+        self.assertIn("评价#2", module.first_review(reviews, ["售后"], negative_first=True))
+        self.assertIn("问答Q1", module.first_question(questions, ["天猫精灵"]))
+
     def test_upload_to_cloudflare_uses_ascii_object_key(self):
         module = load_module("upload_to_cloudflare_test", "upload_to_cloudflare.py")
 

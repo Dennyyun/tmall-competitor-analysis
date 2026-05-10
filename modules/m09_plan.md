@@ -1,6 +1,6 @@
 ## Step 9 — 运营决策 JSON 生成（子 Agent 执行）
 
-> Step 9 的目标是生成“运营决策简报”所需的结构化 JSON，而不是生成归档报告样例中的冗长报告结构。
+> Step 9 的目标是生成“运营决策简报”所需的结构化 JSON；当用户要求新品上架方案、五张主图、卖点转买点或决策指导时，同时生成 `launch_plan` 新品上架全案。
 > 子 Agent 只输出纯净 JSON，写入 `output/step9_plan.json`，由 Step 9.5 合并到 `analysis.json`。
 
 ---
@@ -47,6 +47,26 @@ Step 9 必须按以下顺序推导：
 3. **证据链**：每个关键判断写出“原始数据 → 运营解释 → 支撑的决策”。
 4. **单一主决策**：只选择一个本轮最该做的主策略；其他方向进入 `not_do_now` 或 P1/P2 动作。
 5. **验证闭环**：没有真实 baseline 时，只能写新旧版本胜出，不得编造精确增长比例。
+
+如果任务包含“新品上架”“上架方案”“参考竞品做新品”“完全超过竞品”“五张主图”“卖点转买点”“决策指导”等意图，必须额外读取 `references/product-launch-plan-framework.md` 的规则，并输出 `launch_plan`。最终 Markdown 中的决策指导必须放在卖点转买点创意图文案之后，解释本轮优先动作、暂缓动作和验证规则。
+
+新品上架全案最终 Markdown 必须走 `scripts/render_launch_plan.py` 渲染，结构固定为：
+
+1. 竞品市场概览。
+2. 卖点策划方案。
+3. SKU方案策划。
+4. 卖点转化为买点：创意图文案。
+5. 决策指导模块。
+6. 合规注意事项。
+
+卖点策划必须放在 SKU方案之前；先明确“我方靠什么赢、主卖点是什么、竞品弱点打哪里”，再把打法落成 SKU 命名、价格梯度和套餐承接。决策指导模块必须放在 SKU方案、卖点策划和创意图文案之后，作为第五章；先明确“怎么赢、卖什么 SKU、页面如何表达买点”，再判断本轮优先动作。
+
+评价、评论、问答相关洞察必须从 `raw/*.json` 的原始 `feedback` / `question` 文本提取。禁止只引用 `analysis.json.feedback_insights`、`feedback_pain_points`、`review_qa_insights` 这类摘要字段。每条关键反馈洞察至少要能落到：
+
+- `评价#{编号}`：来自 `【竞品详细评价抽样】`。
+- `问答Q{编号}`：来自 `【核心问答抽样】`。
+
+`【竞品全局印象标签】` 和 `【买家售前顾虑标签】` 只能作为辅助索引，不能单独作为最终证据。
 
 `decision_type` 只能使用：
 
@@ -170,7 +190,90 @@ Step 9 必须按以下顺序推导：
       "target_cls": "green",
       "action": "关键行动"
     }
-  ]
+  ],
+  "launch_plan": {
+    "market_overview": {
+      "competitor_table": [
+        {
+          "brand": "自家/竞品名称",
+          "price": "券后价或价格带",
+          "sales": "已售量",
+          "reviews": "评价数",
+          "core_advantage": "核心优势",
+          "core_weakness": "核心弱点"
+        }
+      ],
+      "key_findings": ["市场关键发现"]
+    },
+    "surpass_strategy": {
+      "core_strategy": "完全超过竞品的核心打法",
+      "why_can_win": "为什么我方能赢",
+      "competitor_weakness_to_attack": ["要攻击的竞品弱点"],
+      "own_strength_to_amplify": ["要放大的我方优势"]
+    },
+    "value_proposition_system": {
+      "super_buy_point": {
+        "raw_selling_point": "原始卖点",
+        "user_pain": "用户痛点",
+        "usage_scene": "使用场景",
+        "user_benefit": "用户收益",
+        "purchase_reason": "购买理由",
+        "page_expression": "页面表达"
+      },
+      "important_buy_points": ["重要买点"],
+      "supporting_buy_points": ["辅助买点"]
+    },
+    "decision_guidance": {
+      "decision_goal": "本轮目标，如提升点击/提升转化/提高客单/降低咨询阻力",
+      "priority_judgement": "为什么当前优先做这个动作",
+      "decision_matrix": [
+        {
+          "option": "可选动作",
+          "conversion_impact": "影响转化评分1-5",
+          "competitor_scarcity": "竞品稀缺评分1-5",
+          "implementation_feasibility": "自身可落地评分1-5",
+          "compliance_risk": "low | medium | high",
+          "score": "综合分",
+          "decision": "做/暂缓/先补数据"
+        }
+      ],
+      "recommended_path": "本轮推荐路径",
+      "not_do_now": ["本轮暂不做事项及原因"],
+      "validation_rule": "验证方式和判断胜负标准"
+    },
+    "sku_strategy": {
+      "naming_rules": ["SKU命名规则"],
+      "recommended_skus": ["推荐SKU"],
+      "pricing_logic": ["定价逻辑"],
+      "sku_image_advice": ["SKU图建议"]
+    },
+    "buy_point_conversion": [
+      {
+        "user_inner_voice": "用户内心独白",
+        "selling_point": "产品卖点",
+        "scene_expression": "场景化买点文案",
+        "landing_position": "落地位置"
+      }
+    ],
+    "main_image_plan": [
+      {
+        "image_no": "图1到图5",
+        "buy_point": "用户买点",
+        "visual_scene": "画面建议",
+        "headline": "主标题",
+        "supporting_copy": "辅助文案",
+        "avoid": "禁用表达或画面"
+      }
+    ],
+    "detail_page_plan": ["详情页核心屏顺序与文案"],
+    "compliance_notes": [
+      {
+        "risky_expression": "禁用或高风险表达",
+        "safe_alternative": "合规替代表达",
+        "reason": "风险原因"
+      }
+    ]
+  }
 }
 ```
 
@@ -183,6 +286,8 @@ Step 9 必须按以下顺序推导：
 - 不要输出多个并列推荐方案。
 - 不要输出归档报告样例中的冗长字段或长篇附录字段。
 - 不要编造点击率、转化率、增长百分比。
+- `launch_plan` 中的买点文案必须从用户痛点和场景出发，不要堆参数；没有证据支撑的护眼、亮度、专利、第一等表达必须写入合规风险。
+- 不要把评价/问答摘要当作原始证据；涉及用户反馈时必须引用评价编号或问答编号。
 
 ---
 

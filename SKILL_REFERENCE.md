@@ -222,6 +222,8 @@ scripts/report_template.py ← HTML 模板脚本（固定不变）
 | `pricing_strategy`          | Step 9     | 价格位置和促销判断                    |
 | `review_qa_insights`        | Step 9     | 评价购买理由和问答下单阻力                |
 | `kpi_table`                 | Step 9     | 简报验证指标                       |
+| `launch_plan`               | Step 9     | 可选新品上架全案：SKU方案、超过竞品打法、五张主图、卖点转买点、决策指导和合规方案 |
+| `新品上架全案_{taskId}.md`  | Step 9/10  | 固定六章结构的 Markdown 全案，由 `scripts/render_launch_plan.py` 基于 raw 评价/问答证据渲染 |
 
 ### Step 10 执行方式
 
@@ -244,6 +246,10 @@ python scripts/report_template.py {taskId}
 | S3  | Top3执行动作    | 负责人、动作、截止时间、验收标准            |
 | S4  | 验证方案        | 主指标、辅指标、无 baseline 规则、关键KPI |
 | S5  | 关键支撑数据      | 竞品价格/评价体量、标题关键词、价格判断、用户反馈 |
+
+当 `analysis.json` 存在 `launch_plan` 时，Step 10 会额外渲染“新品上架全案”摘要；没有该字段时仍保持原 5 段式简报。若用户要“新品上架全案/新品策划全案”正文，必须额外执行 `python scripts/render_launch_plan.py {taskId}`，生成固定六章结构 Markdown。
+
+评价、评论、问答相关洞察必须直接来自 `raw/*.json` 的 `feedback` / `question` 原始文本，并能回到“评价#编号”或“问答Q编号”。`feedback_insights`、`feedback_pain_points`、`review_qa_insights` 等摘要字段只能辅助定位，不能单独作为用户反馈证据。
 
 历史 HTML 样例已归档至 `archive/legacy_report_examples/`，仅作历史参考，不作为新报告模板。
 
